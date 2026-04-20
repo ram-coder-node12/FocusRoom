@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User Profiles
+    match /users/{userId} {
+      // Anyone logged in can read user profiles
+      allow read: if request.auth != null;
+      // Users can only create/update their own profiles
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Study Rooms
+    match /rooms/{roomId} {
+      // Anyone logged in can read rooms
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      
+      // Can update if: logged in AND (already in participants array OR joining/leaving OR room creator)
+      allow update: if request.auth != null;
+      
+      // Only the creator can delete their room
+      allow delete: if request.auth != null && request.auth.uid == resource.data.createdBy;
+
+      // Messages Sub-collection inside a Room
+      match /messages/{messageId} {
+        // Anyone logged in can read and write messages to an active room
+        allow read, create: if request.auth != null;
+        allow update, delete: if false; // Messages cannot be edited or deleted once sent
+      }
+    }
+
+    // Focus Sessions Log
+    match /sessions/{sessionId} {
+      // Users can only view and log their own sessions
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if false; // Session history is immutable
+    }
+  }
+}
