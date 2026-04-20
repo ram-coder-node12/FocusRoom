@@ -8,29 +8,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        surface: {
-          hover: '#1e1e1e',
-          DEFAULT: '#141414',
-          elevated: '#2a2a2a',
-        },
-        primary: {
-          DEFAULT: '#0a0a0a'
-        },
+        primary: '#030014',
+        secondary: '#0F0826',
         accent: {
-          DEFAULT: '#7c3aed',
-          hover: '#6d28d9',
-          blue: '#6366f1'
+          DEFAULT: '#8b5cf6',
+          hover: '#7c3aed',
+          glow: 'rgba(139, 92, 246, 0.5)'
         },
-        text: {
-          primary: '#f5f5f5',
-          secondary: '#a3a3a3'
-        },
-        success: '#22c55e',
-        warning: '#f59e0b',
-        danger: '#ef4444'
+        glass: {
+          100: 'rgba(255, 255, 255, 0.05)',
+          200: 'rgba(255, 255, 255, 0.1)'
+        }
       },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif']
+      backgroundImage: {
+        'hero-pattern': 'linear-gradient(to right bottom, #030014, #0F0826, #1A0B2E)',
+      },
+      animation: {
+        'blob': 'blob 7s infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        blob: {
+          '0%': { transform: 'translate(0px, 0px) scale(1)' },
+          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+          '100%': { transform: 'translate(0px, 0px) scale(1)' },
+        }
       }
     },
   },
